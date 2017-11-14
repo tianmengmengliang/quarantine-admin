@@ -1,0 +1,18 @@
+@import '../style/core/index.less';
+
+.@{prefix}-rl{
+  display:block;
+  position:relative;
+  &-left-container{
+    float:left;
+    width:200px;
+  }
+  &-right-container{
+    margin-left:200px;
+    padding:0 16px;
+    overflow:auto;
+  }
+  &:after{
+    .clear-fix()
+  }
+}

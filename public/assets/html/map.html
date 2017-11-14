@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>地图轨迹</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <script src="http://webapi.amap.com/maps?v=1.3&key=f10192187cd25505a27c1fa3d02b6ee8"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <script src="http://f.alicdn.com/jquery/2.2.1/jquery.min.js"></script>
+    <script type="application/javascript" src="../lib/js-url/url.min.js"></script>
+</head>
+<body>
+<div class="button-group" style="position:absolute;z-index:9999">
+    <input type="button" class="button" value="回到起点" id="backToStart"/>
+    <input type="button" class="button" value="开始动画" id="start"/>
+    <input type="button" class="button" value="停止动画" id="stop"/>
+</div>
+<div id="container" ></div>
+<Script>
+    var com={
+        yizhihui:{
+            getLatLngDataUrl: url('?domain') + '?' + 'method=' + url('?method')
+        }
+    }
+</Script>
+<script>
+    function UtilsWrap(){
+        function Utils(){}
+        Utils.getSearchStr=function(){
+            return location.search;
+        };
+        Utils.getSearchObj=function(searchStr){
+            var searchArr=searchStr.substring(1).split("&").map(function(query){
+                return query.split("=")
+            });
+            var searchObj={};
+            searchArr.map(function(query){
+                if(query[0]==="deviceSn"){
+                    searchObj[query[0]]=query[1]
+                }
+                if(query[0]==="begin"||query[0]==="end"){
+                    if(isNaN(parseInt(query[1])) || parseInt(query[1]) === 0 || query[1] === 'undefined' || query[1] === 'null'){
+                    }else{
+                        searchObj[query[0]] = parseInt(query[1])
+                    }
+                }
+            });
+
+            return searchObj
+        };
+        Utils.getLngLatData=function(url,options,success,fail,method,complete){
+            // console.log(options);
+            var responseBody={}
+            // http://api.yizhihui.com:9596/rest
+            var _f = new FormData();
+            for(var x in options){
+                if(options.hasOwnProperty(x)){
+                    _f.append(x, options[x])
+                }
+            }
+            $.ajax(url,{
+                method:method||"POST",
+                headers:{
+                    Authorization:localStorage.getItem("_YZH_QUARANTINE_Token")
+                },
+                dataType: 'json',
+                data: _f,
+                processData: false,
+                contentType: false,
+                success:successWrap,
+                error:errorWrap,
+                complete:complete
+            });
+            function successWrap(res,textStatus,xhr){
+                if(res.success) {
+                    success&success(res,textStatus,xhr)
+                }else{
+                    fail&&fail(res,textStatus,xhr)
+                }
+            }
+
+            function errorWrap(xhr,textStatus,err){
+
+            }
+
+            return responseBody;
+        }
+        return Utils
+    }
+    function ReduxObj(){
+        this.data=[];
+        this.lineArr=[];
+        this.lineArrMapValue=[];
+        this.markers=[];
+    }
+
+    ReduxObj.prototype={
+        setData:function(data){
+            // console.log(data);
+            this.data=data;
+            this.setLineArr(data);
+            // this.setMarkers(this.lineArr,this.lineArrMapValue);
+            return true;
+        },
+        getData:function(){
+            return this.data
+        },
+        setLineArr:function(data){
+            var lineArr=[],lineArrValue=[];
+            data.map(function(geo){
+                if(geo["lng"] && geo['lat']) {
+                    var lngLat = new AMap.LngLat(parseFloat(geo['lng']),parseFloat(geo['lat']));
+                    lineArr.push(lngLat);
+                    lineArrValue.push(geo)
+                }
+                // console.log(lngLat);
+            });
+            // console.log(lineArr);
+            this.lineArr=lineArr;
+            return true;
+        },
+        getLineArr:function (){
+            return this.lineArr||[];
+        },
+        setMarkers:function(lineArr,data){
+            var markers=[];
+            lineArr.map(function(lngLat,index){
+                var marker = new AMap.Marker({
+                    position: lngLat,
+                    title:data[index].value.ADDRESS
+                });
+                markers.push(marker)
+            });
+
+            this.markers=markers;
+            return true
+        },
+        getMarkers:function(){
+            return this.markers||[]
+        }
+    };
+
+    function Map(){
+        this.searchStr="";
+        this.searchObj={};
+        this.url=com.yizhihui.getLatLngDataUrl;
+        this.responseBody={};
+        this.map={};
+        this.polyline={};
+        this.markerIcon={};
+        this.speed=1000;
+        this.distanceTypes=[
+            [50,18],                     // 50m
+            [100,18],                    // 100m
+            [200,17],                    // 200m
+            [500,16],                    // 500m
+            [1000,15],                   // 1km
+            [2000,14],                   // 2km
+            [5000,13],                   // 5km
+            [10000,12],                  //10km
+            [20000,11],                  // 20km
+            [25000,10],                   // 25km
+            [50000,9],                   // 50km
+            [100000,8],                  // 100km
+            [200000,7],                  // 200km
+            [500000,6],                  // 500km
+            [1000000,4],                 // 1000km
+            [2000000,3]                  // 2000km
+        ];
+        this.speedTypes=[1,2,5,10,20,50,100,200,250,500,1000,2000,5000,10000,20000]
+    }
+
+    Map.prototype={
+        state:new ReduxObj(),
+        Utils:UtilsWrap(),
+        initMap:function(){
+            var self=this;
+            this.map=new AMap.Map('container', {
+                resizeEnable: true,
+                zooms: [3,18]
+            });
+            window.map=this.map;
+            this.map.on("complete", completeEventHandler);
+            function completeEventHandler() {
+                self.setCenter(self.getStartPoint());
+                var maxDistance=self.getMaxDistance(self.state.lineArr);
+                self.setZoomLevelByMaxDistance(maxDistance,self.distanceTypes,self.speedTypes);
+                var markerIcon = new AMap.Marker({
+                    map:self.map,
+                    position:self.getStartPoint(),
+                    icon: "http://webapi.amap.com/images/car.png",
+                    offset: new AMap.Pixel(-26, -13),
+                    autoRotation: true
+                });
+                var polyline = new AMap.Polyline({
+                    map: self.map,
+                    path: self.state.lineArr,
+                    strokeColor: "#00A",  //线颜色
+                    strokeOpacity: 1,     //线透明度
+                    strokeWeight: 3,      //线宽
+                    strokeStyle: "solid"  //线样式
+                });
+                AMap.event.addDomListener(document.getElementById('start'), 'click', function() {
+                    if(self.state.lineArr.length===0) return;
+                    markerIcon.moveAlong(self.state.lineArr, self.speed);
+                }, false);
+                AMap.event.addDomListener(document.getElementById('stop'), 'click', function() {
+                    if(self.state.lineArr.length===0) return;
+                    markerIcon.stopMove();
+                }, false);
+                AMap.event.addDomListener(document.getElementById('backToStart'), 'click', function() {
+                    if(self.state.lineArr.length===0) return;
+                    self.setCenter(self.getStartPoint())
+                }, false);
+                self.markerIcon=markerIcon;
+                self.polyline=polyline;
+            }
+        },
+        init:function(){
+            var self=this;
+            this.map=new AMap.Map('container', {
+                resizeEnable: true,
+                zooms: [3,18]
+            });
+            window.map=this.map;
+            function success(res,textStatus,xhr){
+                // console.log(res);
+                var responseObject=res.responseObject;
+                if( !(responseObject instanceof Array)||responseObject.length===0) return;
+                //  console.log(res);
+                self.responseBody=res;
+                self.setState(res.responseObject);
+                self.initMap()
+            }
+            function error(xhr,textStatus,error){
+                // console.log(textStatus,error)
+            }
+            function complete(xhr,textStatus){
+                // console.log(arguments)
+            }
+            this.searchStr=this.Utils.getSearchStr();
+            this.searchObj=this.Utils.getSearchObj(this.searchStr);
+            this.Utils.getLngLatData(this.url,this.searchObj,success,error,'POST',complete)
+        },
+        setState:function(responseObject){
+            this.state.setData(responseObject)
+        },
+        render:function(){
+            this.renderPolyline(this.map,this.state.getLineArr());
+            // this.renderMarkers(this.map,this.state.getMarkers())
+        },
+        renderPolyline:function(map,polylineArr){
+            this.polyline.setMap(map);
+            this.polyline.setPath(polylineArr)
+        },
+        renderMarkers:function(map,markers){
+            markers.map(function(marker){
+                marker.setMap(map)
+            })
+        },
+        setFitView:function(){
+            this.map.setFitView();
+        },
+        getStartPoint:function(){
+            return this.state.lineArr[0]
+        },
+        setCenter:function(lngLat){
+            this.map.panTo(lngLat);
+            return true
+        },
+        setSpeed:function(speed){
+            this.speed=speed;
+            return true;
+        },
+        getSpeed:function(){
+            return this.speed
+        },
+        getMaxDistance:function(lineArr){
+            if(!(lineArr instanceof Array)||lineArr.length===0) return;
+            var maxDistance=0;
+            var tempDistance=0;
+            var lnglat = new AMap.LngLat(lineArr[0]["lng"],lineArr[0]["lat"]);
+            lineArr.map(function(otherLntLat){
+                tempDistance=lnglat.distance(otherLntLat);
+                if(tempDistance>maxDistance) maxDistance=tempDistance
+            })
+
+            // console.log(maxDistance)
+
+            return maxDistance
+        },
+        setZoomLevelByMaxDistance:function(maxDistance,distanceSettings,speedTypes){
+            var level=this.map.getZoom(),speed;
+            for(var i= 0,len=distanceSettings.length;i<len;i++){
+                if(i===0&&0<=maxDistance&&maxDistance<distanceSettings[i][0]) {level=distanceSettings[i][1];speed=speedTypes[i];break;}
+                else if(i===len-1&&maxDistance>=distanceSettings[i][0]) {level=distanceSettings[i][1];speed=speedTypes[i];break;}
+                else if(i!=0&&distanceSettings[i-1][0]<=maxDistance&&maxDistance<distanceSettings[i][0]) {level=distanceSettings[i][1];speed=speedTypes[i];break}
+            }
+
+            // console.log(level);
+
+            this.setSpeed(speed*50);
+
+            this.map.setZoom(level+1);
+        }
+    };
+    var view=new Map();
+    view.init();
+</script>
+</body>
+</html>

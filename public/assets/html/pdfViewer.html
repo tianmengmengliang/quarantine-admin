@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html dir="ltr" mozdisallowselectionprint moznomarginboxes>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="google" content="notranslate">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PDF.js viewer</title>
+
+
+<!--    <link rel="stylesheet" href="../css/viewer.css">-->
+
+    <script rel="stylesheet" src="../js/pdf.js"></script>
+
+</head>
+
+<body tabindex="1" class="loadingInProgress">
+
+<div style="text-align: center;">
+    <button id="prev">上一页</button>
+    <button id="next">下一页</button>
+    &nbsp; &nbsp;
+    <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+</div>
+
+<canvas id="the-canvas" style="margin: 0 auto; display: block;"></canvas>
+<script type="application/javascript" src="../js/url.min.js"></script>
+<script type="application/javascript" src="../js/pdfViewer.js"></script>
+</body>
+</html>
+

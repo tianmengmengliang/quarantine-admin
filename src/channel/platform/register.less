@@ -1,0 +1,39 @@
+@prefix: yzh;
+
+:global{
+  .@{prefix}-register-wrap{
+    width: 800px;
+    margin: 0 auto;
+
+    & .form{
+      margin-top: 50px;
+    }
+    & .input{
+      margin-right: 10px;
+    }
+    & .img{
+      vertical-align: middle;
+    }
+
+    .previewImage{
+      width: 30px;
+      height: 30px;
+      display: inline-block;
+
+      &:hover{
+        cursor: pointer;
+        box-shadow: 0  0 2px #57fff2;
+      }
+    }
+
+    .previewFile{
+      display: inline-block;
+      font-size: 24px;
+      vertical-align: top;
+
+      &:hover{
+        cursor: pointer;
+      }
+    }
+  }
+}

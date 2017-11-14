@@ -1,0 +1,57 @@
+@prefix: yzh;
+
+:global{
+  .@{prefix}-input-upload{
+    display: inline-block;
+    position: relative;
+
+    & .file-view{
+      //padding: 0 16px;
+      //margin-top: -8px;
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+      & .file-upload-remove-icon{
+        position: absolute;
+        display: none;
+        top: 50%;
+        left: 100%;
+        transform: translate(-100%, -50%)
+      }
+
+      &:hover{
+        cursor: pointer;
+
+        & .file-upload-remove-icon{
+          display: inline-block;
+          margin-left: 8px;
+          margin-top: -8px;
+        }
+      }
+    }
+
+    & .filename, & .status-icon{
+      font-size: 36px;
+    }
+
+    & .status-loading-icon{
+      color: #54cfff;
+    }
+
+    & .status-error-icon{
+      color: #ff9232;
+    }
+
+    & .status-text{
+      font-size: 12px;
+    }
+
+    & .status-loading-text{
+
+    }
+
+    & .status-text-error{
+      color: #f49e51;
+    }
+  }
+}

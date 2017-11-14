@@ -1,0 +1,67 @@
+@prefix: yzh;
+
+:global{
+  .@{prefix}-add-order-modal{
+    & .file-upload-container-inline{
+      & .file-view{
+        padding: 0 16px;
+        margin-top: -8px;
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        & .file-upload-remove-icon{
+          position: absolute;
+          display: none;
+          top: 50%;
+          left: 100%;
+          transform: translate(-100%, -50%)
+        }
+
+        &:hover{
+          cursor: pointer;
+
+          & .file-upload-remove-icon{
+            display: inline-block;
+          }
+        }
+      }
+
+      & .filename, & .status-icon{
+        font-size: 36px;
+      }
+
+      & .status-loading-icon{
+        color: #54cfff;
+      }
+
+      & .status-error-icon{
+        color: #ff9232;
+      }
+
+      & .status-text{
+        font-size: 12px;
+      }
+
+      & .status-loading-text{
+
+      }
+
+      & .status-text-error{
+        color: #f49e51;
+      }
+
+    }
+
+    .previewImage{
+      width: 80px;
+      height: 40px;
+      display: inline-block;
+      vertical-align: top;
+
+      &:hover{
+        cursor: pointer;
+        box-shadow: 0  0 2px #57fff2;
+      }
+    }
+  }
+}

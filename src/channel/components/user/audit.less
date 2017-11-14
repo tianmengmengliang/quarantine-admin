@@ -1,0 +1,92 @@
+@prefix: yzh;
+
+:global{
+  .@{prefix}-user-audit-wrap{
+
+    & div{
+      vertical-align: top;
+    }
+
+    & .company-information table,
+    .personal-information table,
+    .other-org-information table{
+      display: inline-block;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    & .company-information table tr td,
+    .personal-information table tr td,
+    .other-org-information table tr td {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-align: left;
+
+      &:nth-child(2n+1):after{
+        content: "："
+      }
+
+      &:nth-child(2n+2){
+        margin-right: 16px;
+      }
+    }
+
+    & .company-information{
+      // background-color: #feff3b;
+    }
+
+    & .personal-information{
+      // background-color: #997bff;
+    }
+
+    & .other-org-information{
+      // background-color: #ff776f;
+    }
+
+    & .mobile{
+      margin-left: 16px;
+    }
+
+    & .status{
+
+    }
+
+    & .status1{
+      color: #fffe89;
+    }
+
+    & .status-1{
+      color: red;
+    }
+
+    & .status2{
+      color: #20e801;
+    }
+  }
+
+  .file-icon{
+    font-size: 24px;
+    vertical-align: top;
+
+    &:hover{
+      cursor: pointer;
+    }
+  }
+
+  .image-preview-modal{
+
+    & .ant-modal-close-x{
+      width: 36px;
+      height: 36px;
+      border-radius: 50% 50%;
+      background-color: rgba(255, 255, 255, 0.7);
+      font-size: 24px;
+      text-align: center;
+
+      &:before{
+        line-height: 36px;
+      }
+    }
+  }
+}

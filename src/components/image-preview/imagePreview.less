@@ -1,0 +1,64 @@
+@prefix: yzh;
+@space: 2px;
+
+:global{
+  .@{prefix}-image-preview{
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    padding: @space;
+    background-color: #ffffff;
+
+    & .image{
+      width: 100%;
+      display: block;
+    }
+
+    &:hover .mask{
+      display: block;
+    }
+
+    & .mask{
+      &:hover{
+        cursor: pointer;
+      }
+
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(157, 157, 157, 0.7);
+
+      & .mask-content{
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        transform: translate(0, -50%);
+        text-align: center;
+
+        & .icon{
+          color: #ffffff;
+          margin: 0 8px;
+          &:hover{
+            cursor: pointer;
+          }
+        }
+
+        & .icon-small{
+          font-size: 12px;
+        }
+
+        & .icon-default{
+          font-size: 14px;
+        }
+
+        & .icon-large{
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

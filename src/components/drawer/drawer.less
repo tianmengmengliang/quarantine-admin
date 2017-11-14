@@ -1,0 +1,48 @@
+@prefix: yzh;
+
+:global {
+  .@{prefix}-drawer{
+    position: absolute;
+    display: block;
+    width: auto;
+    left: 100%;
+    top: 50%;
+    transform: translate(0, -50%);
+    z-index: 2999;
+    transition: all 1s ease-out 0s;
+
+    &-fold{
+      transform: translate(0, -50%)
+    }
+
+    &-unfold{
+      transform: translate(-100%, -50%);
+    }
+
+    & &-trigger-container{
+      display: inline-block;
+      width: auto;
+      height: 100%;
+    }
+
+    & &-trigger{
+      position: absolute;
+      z-index: 9999;
+      top: 50%;
+      left: 0;
+      transform: translate(0 , -50%);
+      display: inline-block;
+      overflow: hidden;
+      width: auto;
+      height: auto;
+    }
+
+    & &-content{
+      position: relative;
+      display: inline-block;
+      min-height: 200px;
+      background-color: #ffffff;
+      border: 2px solid #ccc;
+    }
+  }
+}

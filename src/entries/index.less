@@ -1,0 +1,103 @@
+@import '../components/style/index.less';
+
+:global {
+  html, body, #root {
+    height: 100%;
+  }
+  body {
+    background: #fafafa;
+  }
+
+  /*容器*/
+  // 上传组件容器
+  .file-upload-container{
+    display: block;
+
+    &-inline{
+      display: block;
+      & .ant-upload-select{
+        display: inline-block;
+        margin: 0 16px 0 0;
+        vertical-align: text-bottom;
+      }
+      & .ant-upload-list{
+        & .ant-upload-list-item{
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+  .ant-upload-select-picture-card i {
+    font-size: 28px;
+    color: #999;
+  }
+
+  .ant-upload-select-picture-card .ant-upload-text {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #666;
+  }
+
+  .ant-upload-list.ant-upload-list-picture{
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .irrelevant-container{
+    margin-top:16px;
+  }
+
+  .template{
+    min-width:1040px;
+    margin:0 auto;
+    display:block;
+  }
+
+  .template:before,.template:after{
+    .clear-fix();
+  }
+
+
+  /*Table*/
+  .has-no-check-box-all{
+    & .react-grid-HeaderCell--locked .react-grid-checkbox-container{
+      display: none;
+    }
+  }
+
+  /*文本*/
+  .text-pass{
+    color: #49ff20;
+  }
+
+  .text-not-pass{
+    color: #ff2620;
+  }
+
+  .text-default{
+    color: #d7d7d7;
+  }
+
+  /*布局*/
+  .text-align-right{
+    .text-align(right, 0 0 8px 0);
+  }
+
+  .text-align-center{
+    .text-align(center, 0 8px 0 8px);
+  }
+
+  .text-align-left{
+    .text-align(right, 0 0 0 8px);
+  }
+
+  /*功能*/
+  .gutter-vertical{                                                     // 垂直间隔
+    height: 8px;
+  }
+
+  .hidden{
+    display: none !important;                                          // 隐藏
+  }
+}

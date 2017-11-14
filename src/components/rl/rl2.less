@@ -1,0 +1,68 @@
+@import '../style/core/index.less';
+
+:global {
+  .@{prefix}-rl{
+    display:block;
+    position:relative;
+
+    &-container{
+      display: block;
+      transition: all 0.5s ease-out 0s;
+    }
+
+    &-left-container{
+      float: left;
+    }
+
+    &-left-container-unfold{
+      float:left;
+      width:200px;
+    }
+
+    &-left-container-fold{
+      width: auto;
+    }
+
+    &-right-container{
+      padding:0 16px;
+      overflow:auto;
+    }
+
+    &-right-container-unfold{
+      margin-left:32px;
+    }
+
+    &-right-container-fold{
+      margin-left:200px;
+    }
+
+    &:after{
+      .clear-fix()
+    }
+
+    & .trigger-container{
+      width: 100%;
+      text-align: right;
+    }
+
+    & .trigger{
+      font-size: 18px;
+      line-height: 64px;
+      padding: 0 16px;
+      cursor: pointer;
+      transition: color .3s;
+
+      &:hover{
+        color: #108ee9;
+      }
+    }
+
+    & .ant-layout-sider-collapsed .anticon{
+      font-size: 16px;
+    }
+
+    & .ant-layout-sider-collapsed .nav-text{
+      display: none;
+    }
+  }
+}

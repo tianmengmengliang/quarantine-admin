@@ -1,0 +1,55 @@
+@prefix: yzh;
+
+:global{
+  .@{prefix}-view-order-modal{
+    & .picture-card{
+      display: inline-block;
+      position: relative;
+      width: 96px;
+      height: 96px;
+      border: 1px dashed #ccc;
+
+      &:hover{
+        border: 1px dashed #36f3ff;
+      }
+
+      & .picture-list{
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        position: relative;
+
+        & .view{
+          display: none;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          color: #ffffff;
+          font-size: 24px;
+          transform: translate(-50%, -50%);
+
+          &:hover{
+            cursor: pointer;
+          }
+        }
+
+        &:hover .view{
+          display: inline-block;
+        }
+      }
+
+      & img{
+        display: block;
+        width: 100%;
+      }
+
+      & .empty{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 64px;
+      }
+    }
+  }
+}

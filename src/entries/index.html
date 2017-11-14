@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>浙江生物医药特殊物品出入境集中监管平台</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="/public/assets/img/favicon.ico" mce_href="/public/assets/img/favicon.ico" rel="bookmark" type="image/x-icon" />
+    <link href="/public/assets/img/favicon.ico" mce_href="/public/assets/img/favicon.icoo" rel="icon" type="image/x-icon" />
+    <link href="/public/assets/img/favicon.ico" mce_href="/public/assets/img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <!-- 浏览器检测 -->
+    <script>
+        function IETester(userAgent){
+            var UA =  userAgent || navigator.userAgent;
+            if(/msie/i.test(UA)){
+                return UA.match(/msie (\d+\.\d+)/i)[1];
+            }else if(~UA.toLowerCase().indexOf('trident') && ~UA.indexOf('rv')){
+                return UA.match(/rv:(\d+\.\d+)/)[1];
+            }
+            return false;
+        }
+        var UA = IETester();
+        if(UA && parseInt(UA) <=8){
+            // 重定向到下载浏览器界面
+            location.href='/public/assets/html/notSupport.html'
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="./index.css"/>
+   <!-- <script src="http://f.alicdn.com/underscore/1.8.3/underscore-min.js"></script>-->
+    <script src="http://f.alicdn.com/jquery/2.2.1/jquery.min.js"></script>
+    <script src="/public/assets/lib/js-url/url.min.js"></script>
+    <!--[if lt IE 10]>
+    <script src="https://as.alipayobjects.com/g/component/??console-polyfill/0.2.2/index.js,es5-shim/4.5.7/es5-shim.min.js,es5-shim/4.5.7/es5-sham.min.js,html5shiv/3.7.2/html5shiv.min.js,media-match/2.0.2/media.match.min.js"></script>
+    <![endif]-->
+    <!-- 引入在线资源 -->
+    <script src="https://a.alipayobjects.com/g/datavis/g2/2.2.7/g2.js"></script>
+    <script src="https://a.alipayobjects.com/g/datavis/g2-plugin-slider/1.0.0/slider.js"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script src="./common.js" charset="utf-8"></script>
+<script src="./index.js" charset="utf-8"></script>
+</html>
